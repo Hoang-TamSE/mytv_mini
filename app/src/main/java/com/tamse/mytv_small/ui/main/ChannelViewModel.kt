@@ -26,8 +26,8 @@ class ChannelViewModel @Inject constructor(
 
     private  val _channelDetail = MutableLiveData<ChannelDetail>()
 
-    private val _play = MutableLiveData<PlayUrl>()
-    val play: LiveData<PlayUrl> = _play
+    private val _play = MutableLiveData<PlayUrl?>()
+    val play: LiveData<PlayUrl?> = _play
 
 
     private val _channel = MutableLiveData<Channel>()
@@ -42,9 +42,6 @@ class ChannelViewModel @Inject constructor(
 
     val channelDetail: LiveData<ChannelDetail> = _channelDetail
 
-    private val _encryptUrlModel = MutableLiveData<EncryptUrlModel>()
-
-    val encryptUrlModel: LiveData<EncryptUrlModel> = _encryptUrlModel
 
     fun fetchChannels() {
         viewModelScope.launch {
@@ -62,6 +59,9 @@ class ChannelViewModel @Inject constructor(
 //
 //                _channels.value = topHeadLine.channels
         }
+    }
+    fun setNullForPlay() {
+        _play.value = null
     }
     fun fetchPlayUrl(channelDetail: ChannelDetail) {
         viewModelScope.launch {
@@ -85,7 +85,8 @@ class ChannelViewModel @Inject constructor(
                             e -> e.printStackTrace()
                     }.collect {
                         _channelDetail.value = it
-                        fetchPlayUrl(_channelDetail.value!!)
+                        _play.value = null
+                        fetchPlayUrl(it)
                     }
             }
         }

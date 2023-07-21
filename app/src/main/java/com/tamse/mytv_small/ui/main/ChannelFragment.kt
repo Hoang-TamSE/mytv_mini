@@ -31,7 +31,6 @@ class ChannelFragment : Fragment() {
         binding.viewModel = viewModel
         binding.photosGrid.adapter = ChannelAdapter(ChannelListener { channel ->
             viewModel.fetchChannelClicked(channel)
-//            viewModel.fetchPlayUrl()
             findNavController()
                 .navigate(R.id.action_channelFragment2_to_channelDetailFragment)
         })

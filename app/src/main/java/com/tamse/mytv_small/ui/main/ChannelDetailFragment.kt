@@ -17,12 +17,17 @@ import com.tamse.mytv_small.databinding.FragmentChannelDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import vn.mytv.b2c.androidtv.common.utils.DecryptUrlUtils
 
+const val URL_KEY = "URL_KEY"
 @AndroidEntryPoint
 class ChannelDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private val viewModel: ChannelViewModel by activityViewModels()
-    private lateinit var playerView: PlayerView
-    private lateinit var simpleExoPlayer: SimpleExoPlayer
+
+    private var simpleExoPlayer: ExoPlayer? = null
+    private var playerView: PlayerView? = null
+    private var mediaItem: MediaItem? = null
+    private var newUrl: String = ""
+    private var url: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,50 +40,75 @@ class ChannelDetailFragment : Fragment() {
         binding.viewModel = viewModel
 
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.play.observe(this.viewLifecycleOwner) { value ->
+            playerView = requireView().findViewById(R.id.playVideo)
+            val context = playerView!!.context
+            if (value != null) {
+                newUrl = DecryptUrlUtils.buildUrl(context, value.url, value.e)
+            }else if (savedInstanceState != null && value == null) {
+                newUrl = savedInstanceState.getString(URL_KEY, "")
+            }
+            val uri = newUrl.toUri().buildUpon().scheme("https").build()
+            mediaItem = MediaItem
+                .fromUri(uri)
+            simpleExoPlayer = SimpleExoPlayer.Builder(context).build()
 
-    }
+            playerView!!.player = simpleExoPlayer
 
-    override fun onResume() {
-        super.onResume()
 
-        playerView = requireView().findViewById(R.id.playVideo)
-        var newUrl = ""
-        viewModel.play.observe(this.viewLifecycleOwner) {
-            newUrl = DecryptUrlUtils.buildUrl(requireContext(), it.url, it.e)
+            simpleExoPlayer!!.addMediaItem(mediaItem!!)
 
+            simpleExoPlayer!!.prepare()
+
+            simpleExoPlayer!!.playWhenReady = true
         }
-        val uri = newUrl.toUri().buildUpon().scheme("https").build()
-        val mediaItem = MediaItem
-            .fromUri(uri)
-
-        simpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
-
-        playerView.player = simpleExoPlayer
-
-
-        simpleExoPlayer.addMediaItem(mediaItem)
-
-        simpleExoPlayer.prepare()
-
-        simpleExoPlayer.playWhenReady = true
-
-
-
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
-        simpleExoPlayer.playWhenReady = false
-        simpleExoPlayer.stop()
-        simpleExoPlayer.seekTo(0)
-
+        releasePlayer()
     }
 
+    override fun onStop() {
+        super.onStop()
+        releasePlayer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        releasePlayer()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(URL_KEY, url)
+        super.onSaveInstanceState(outState)
+    }
+
+
+    fun releasePlayer() {
+        if(simpleExoPlayer != null){
+            simpleExoPlayer?.run {
+                playWhenReady = false
+                stop()
+                release()
+            }
+            simpleExoPlayer = null
+            playerView?.player = null
+            mediaItem = null
+            if (newUrl != ""){
+                url = newUrl
+            }
+            newUrl = ""
+            viewModel.setNullForPlay()
+        }
+    }
 
 }
