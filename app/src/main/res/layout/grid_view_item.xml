@@ -31,8 +31,7 @@
     <ImageView
         android:id="@+id/channel_image"
         android:layout_width="wrap_content"
-        android:layout_height="170dp"
-        android:scaleType="fitXY"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:padding="2dp"
         android:onClick="@{() -> clickListener.onClick(channel)}"

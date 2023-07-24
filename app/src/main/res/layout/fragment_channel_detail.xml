@@ -34,11 +34,12 @@
                 android:id="@+id/playVideo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:show_shuffle_button="true"
-                app:show_subtitle_button="true"
-                />
+                app:show_subtitle_button="true" />
 
             <!-- TODO: set the text to the name from the single Amphibian object in the view model -->
 <!--            <TextView-->
@@ -52,26 +53,6 @@
 <!--                android:text="@{viewModel.play.url}"-->
 <!--                tools:text="Blue Jeans Frog"/>-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/playVideo"/>
-
-            <!-- TODO: set the text to the description from the Amphibian object in the view model -->
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/playVideo"
-                android:text="@{viewModel.play.nodeAddr}"
-                tools:text="Bright red body, blue legs"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

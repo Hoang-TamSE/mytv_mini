@@ -16,5 +16,9 @@
         android:id="@+id/channelDetailFragment"
         android:name="com.tamse.mytv_small.ui.main.ChannelDetailFragment"
         android:label="ChannelDetailFragment"
-        tools:layout="@layout/fragment_channel_detail"/>
+        tools:layout="@layout/fragment_channel_detail">
+        <action
+            android:id="@+id/action_channelDetailFragment_to_channelFragment2"
+            app:destination="@id/channelFragment2" />
+    </fragment>
 </navigation>
