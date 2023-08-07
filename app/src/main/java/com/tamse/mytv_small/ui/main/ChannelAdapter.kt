@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tamse.mytv_small.data.model.Channel
 import com.tamse.mytv_small.databinding.GridViewItemBinding
 
-class ChannelAdapter(val clickListener: ChannelListener): ListAdapter
+class ChannelAdapter(private val clickListener: ChannelListener): ListAdapter
 <Channel, ChannelAdapter.ChannelViewHolder>(DiffCallback) {
     class ChannelViewHolder(private var binding:
                             GridViewItemBinding)
         :
         RecyclerView.ViewHolder(binding.root){
-            fun bind(clickListener: ChannelListener, channel: Channel) {
-                binding.channel = channel
-                binding.clickListener = clickListener
-                binding.executePendingBindings()
-            }
+        fun bind(clickListener: ChannelListener, channel: Channel) {
+            binding.channel = channel
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+        }
 
     }
     companion object DiffCallback: DiffUtil.ItemCallback<Channel>() {

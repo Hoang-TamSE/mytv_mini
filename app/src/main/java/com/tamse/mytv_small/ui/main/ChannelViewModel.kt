@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +36,7 @@ class ChannelViewModel @Inject constructor(
     val channel: LiveData<Channel> = _channel
 
 
-    val channels: LiveData<List<Channel>> = _channels
+    val channels: LiveData<List<Channel>> = mainRepository.channels
 
 
     val status: LiveData<Status> = _status
@@ -45,16 +46,22 @@ class ChannelViewModel @Inject constructor(
 
     fun fetchChannels() {
         viewModelScope.launch {
-            mainRepository.getTopHeadLine().catch { e ->
-                e.printStackTrace()
-                _channels.value = listOf()
-                _status.value = Status.ERROR
-            }.collect {
-                _channels.value = it
-                _status.value = Status.SUCCESS
+           try {
+               mainRepository.getTopHeadLine().catch { e ->
+                   e.printStackTrace()
+                   _channels.value = listOf()
+               }.collect {
+                   mainRepository.insertChannels(it)
+                   _channels.value = it
+                   _status.value = Status.SUCCESS
 
 
-            }
+               }
+           } catch (networkError : IOException) {
+               if(channels.value.isNullOrEmpty()){
+                   _status.value = Status.ERROR
+               }
+           }
 
 //
 //                _channels.value = topHeadLine.channels

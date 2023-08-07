@@ -1,11 +1,11 @@
 package com.tamse.mytv_small.ui.main
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
@@ -23,7 +23,7 @@ class ChannelDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private val viewModel: ChannelViewModel by activityViewModels()
 
-    private var simpleExoPlayer: ExoPlayer? = null
+    var simpleExoPlayer: ExoPlayer? = null
     private var playerView: PlayerView? = null
     private var mediaItem: MediaItem? = null
     private var newUrl: String = ""
@@ -74,7 +74,6 @@ class ChannelDetailFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        releasePlayer()
     }
 
     override fun onStop() {
@@ -84,7 +83,6 @@ class ChannelDetailFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        releasePlayer()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -110,5 +108,4 @@ class ChannelDetailFragment : Fragment() {
             viewModel.setNullForPlay()
         }
     }
-
 }

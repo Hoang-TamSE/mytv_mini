@@ -1,6 +1,7 @@
 package com.tamse.mytv_small.data.model
 
 import com.squareup.moshi.Json
+import com.tamse.mytv_small.database.DatabaseChannel
 
 data class Channel(
 
@@ -42,11 +43,37 @@ data class Channel(
     @Json(name = "TVOD")
     val tvod: String? = "",
 
-    @Json(name = "PRODUCT_PLUGIN_ID_LIST")
-    val productPluginIdList: String? = "",
+//    @Json(name = "PRODUCT_PLUGIN_ID_LIST")
+//    val productPluginIdList: String? = "",
 
     @Json(name = "HAS_SCHEDULE")
     val hasSchedule: String? = ""
 
 
 )
+
+fun listChanneltoDatabaseChannel(channels: List<Channel>): List<DatabaseChannel> {
+    return channels.map {
+        DatabaseChannel(
+            contentID = it.contentID!!,
+            contentTitle = it.contentTitle!!,
+            contentImageSmall = it.contentImageSmall!!,
+
+            contentImageUrl = it.contentImageUrl!!,
+            typeID = it.typeID!!,
+            typeGroup = it.typeGroup!!,
+
+            recommendation = it.recommendation!!,
+            sortOrder = it.sortOrder!!,
+            listId = it.listId!!,
+
+            sortOrderList = it.sortOrderList!!,
+            tvod = it.tvod!!,
+//            productPluginIdList = it.productPluginIdList!!,
+
+            hasSchedule = it.hasSchedule!!
+
+        )
+    }
+}
+

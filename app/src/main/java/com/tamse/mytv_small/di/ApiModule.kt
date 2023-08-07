@@ -1,13 +1,18 @@
 package com.tamse.mytv_small.di
 
+import android.content.Context
+import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.tamse.mytv_small.data.api.ApiService
+import com.tamse.mytv_small.database.ChannelDao
+import com.tamse.mytv_small.database.ChannelsDatabase
 import com.tamse.mytv_small.repository.MainRepository
 import com.tamse.mytv_small.repository.MainRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,6 +60,19 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun providesMainRepository(apiService: ApiService): MainRepository =
-        MainRepositoryImpl(apiService)
+    fun providesMainRepository(apiService: ApiService, channelDao: ChannelDao): MainRepository =
+        MainRepositoryImpl(apiService, channelDao)
+
+
+    @Singleton
+    @Provides
+    fun getDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(app,
+        ChannelsDatabase::class.java,
+        "database_channel")
+        .fallbackToDestructiveMigration()
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideTopHead(channelDatabase: ChannelsDatabase): ChannelDao = channelDatabase.channelDao()
 }

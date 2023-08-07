@@ -21,6 +21,8 @@ buildscript {
         // where the versions of the plugin needs to be the same as the version of the
         // library defined in the app Gradle file
         kotlin_version = "1.7.20"
+        room_version = '2.4.2'
+
     }
     repositories {
         google()

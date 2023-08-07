@@ -33,7 +33,15 @@
         </activity>
         <activity
             android:name="com.tamse.mytv_small.activity.MainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
+            android:configChanges=
+                "screenSize|smallestScreenSize|screenLayout|orientation"
+            >
+            <intent-filter>
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

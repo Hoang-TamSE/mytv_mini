@@ -1,5 +1,6 @@
 package com.tamse.mytv_small.repository
 
+import androidx.lifecycle.LiveData
 import com.tamse.mytv_small.data.model.Channel
 import com.tamse.mytv_small.data.model.ChannelDetail
 import com.tamse.mytv_small.data.model.PlayUrl
@@ -12,4 +13,7 @@ interface MainRepository {
     suspend fun getTopHeadLineChannelDetail(channelId: String): Flow<ChannelDetail>
 
     suspend fun getTopHeadLinePlay(channelId: String, mfCode: String): Flow<PlayUrl>
+
+    suspend fun insertChannels(channels: List<Channel>)
+    val channels: LiveData<List<Channel>>
 }

@@ -26,14 +26,12 @@
     </data>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/playVideo"
+                app:controller_layout_id="@layout/custom_exo_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +52,6 @@
 <!--                tools:text="Blue Jeans Frog"/>-->
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
