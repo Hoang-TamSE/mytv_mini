@@ -28,6 +28,8 @@ buildscript {
         google()
         mavenCentral()
         maven { url 'https://google.bintray.com/exoplayer/' }
+        maven { url 'https://jitpack.io' }
+
 
     }
     dependencies {
@@ -40,6 +42,9 @@ buildscript {
 
     }
 }
+
+
+
 
 
 task clean(type: Delete) {

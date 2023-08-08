@@ -108,7 +108,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation project(':drag')
 
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
 
 
 

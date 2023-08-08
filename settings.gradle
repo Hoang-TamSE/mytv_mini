@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "mytv_small"
 include ':app'
+include ':drag'
