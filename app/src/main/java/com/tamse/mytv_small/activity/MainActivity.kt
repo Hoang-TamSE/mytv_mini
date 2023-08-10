@@ -12,14 +12,14 @@ import com.github.pedrovgs.DraggablePanel
 import com.tamse.mytv_small.R
 import com.tamse.mytv_small.ui.main.ChannelDetailFragment
 import com.tamse.mytv_small.ui.main.ChannelFragment
+import com.tamse.mytv_small.ui.main.LiveFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ChannelFragment.ChannelClickListener {
 
-    private lateinit var draggablePanel: DraggablePanel
     var isPipMode: Boolean ?= false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onUserLeaveHint() {
@@ -42,6 +44,13 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         isPipMode = false
+    }
+
+    override fun onChannelClicked() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frameLayoutMain, LiveFragment(), "")
+            .commit()
     }
 
 

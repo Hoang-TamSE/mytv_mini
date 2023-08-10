@@ -39,6 +39,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:channelStatus="@{viewModel.status}" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

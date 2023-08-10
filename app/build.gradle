@@ -19,6 +19,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-android-extensions'
+
 
 }
 
@@ -48,6 +50,7 @@ android {
     }
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
 
     compileOptions {
